@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrendWeave - Unleash Your Style</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <script type="module" src="index.js"></script>
+  <!-- <script src="index.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+  /* Custom Styles with Light Colors: White, Light Grayish Blue, and Soft Peach */
+.hero-section {
+  background: linear-gradient(to right, #F0F4F8, #FFEDE1), url('https://via.placeholder.com/1920x1080') no-repeat center center/cover;
+  color: #29303E; /* Gunmetal for text contrast */
+  padding: 100px 0;
+  text-align: center;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+
+}
+
+.hero-section p {
+  font-size: 1.4rem;
+    color: #465A6E; /* Dark Grayish Blue */
+
+}
+
+.feature-section {
+  padding: 60px 0;
+  background-color: #FFFFFF; /* Clean white background */
+}
+
+.feature-card {
+  border: 2px solid #F0F4F8; /* Light Grayish Blue border */
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 8px rgba(240, 244, 248, 0.3); /* Subtle shadow in Light Grayish Blue */
+  margin-bottom: 30px;
+  border-radius: 10px;
+}
+
+.feature-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(240, 244, 248, 0.5); /* Slightly stronger shadow */
+}
+
+.feature-card img {
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  border: 2px solid white; /* Clean white border for images */
+}
+
+.feature-card h3 {
+  margin-top: 20px;
+  color: #29303E; /* Gunmetal */
+}
+
+.feature-card p {
+  font-size: 1.1rem;
+  color: #465A6E; /* Dark Grayish Blue */
+}
+
+.feature-card .bi {
+  font-size: 2rem;
+  color: #F0F4F8; /* Light Grayish Blue */
+}
+
+.feature-card .bi-gear-fill {
+  color: #465A6E;
+}
+
+.feature-card .bi-chat-left-text-fill {
+  color: #465A6E;
+}
+
+.feature-card .bi-geo-fill {
+  color: #465A6E;
+}
+
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid white; /* Light Grayish Blue */
+  border-radius: 10px;
+  background-color: rgba(254, 253, 251, 0.266); /* Clean white background */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adding box shadow */
+}
+
+.cta-section {
+  background-color: #F0F4F8; /* Light Grayish Blue */
+  color: #29303E; /* Gunmetal */
+  padding: 40px 0;
+  text-align: center;
+}
+
+.cta-btn {
+  background-color: black;
+  color: #F0F4F8; /* Light Grayish Blue */
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 2px solid #F0F4F8;
+}
+
+
+
+footer {
+  background-color: #465A6E; /* Dark Grayish Blue for contrast */
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+}
+
+footer a {
+  color: #FFEDE1; /* Soft Peach */
+}
+
+.contact-us {
+  margin-top: 20px;
+  color: white;
+}
+
+.carousel-item img {
+  height: 500px; /* Set a fixed height for all carousel images */
+  object-fit: cover; /* Ensure the image covers the entire area without distortion */
+  width: 100%; /* Ensure the image takes up the full width of the carousel */
+  border: 2px solid #FFEDE1 ; /* Light Grayish Blue border */
+}
+.categories .card img {
+  width: 100%; /* Make the image take the full width of the parent */
+  height: 250px; /* Set a uniform height for all images */
+  object-fit: contain; /* Maintain aspect ratio while filling the area */
+  margin-bottom: 10px; /* Add spacing between images */
+  border-radius: 5px; /* Optional: Add rounded corners for aesthetics */
+}
+.categories .card img {
+  width: 100%; /* Ensure the image takes up the full width of the card */
+  height: 300px; /* Set a uniform height for all images */
+  object-fit: contain; /* Ensure the whole image is displayed without cropping */
+  background-color: #f8f8f8; /* Background for any empty space */
+  border-radius: 5px; /* Optional: Add rounded corners for aesthetics */
+  border: 1px solid #eaeaea; /* Optional: Add a border for clean separation */
+}
+
+.but{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.navbar-brand{
+    font-size: 2rem;
+    font-weight: bold;
+}
+/* Add this to your existing <style> block */
+  .hero-section h1 {
+  animation: fadeIn 2s ease-in-out;
+}
+
+.hero-section p {
+  animation: fadeIn 3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.feature-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.cta-btn {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.cta-btn:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.carousel-item {
+  transition: opacity 1s ease-in-out;
+}
+
+.carousel-item.active {
+  opacity: 1;
+}
+
+.carousel-item:not(.active) {
+  opacity: 0;
+}
+
+.categories .card {
+  transition: transform 0.3s ease;
+}
+
+.categories .card:hover {
+  transform: translateY(-10px);
+}
+
+.navbar-nav .nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  bottom: 0;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 100%;
+}
+
+.social-icons a {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:hover {
+  transform: translateY(-5px);
+  color: #FFEDE1;
+}
+
+#backToTop {
+  transition: transform 0.3s ease;
+}
+
+#backToTop:hover {
+  transform: scale(1.1);
+}
+
+.modal.fade .modal-dialog {
+  transform: translateY(-50px);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modal.show .modal-dialog {
+  transform: translateY(0);
+  opacity: 1;
+}
+@media screen and (min-width:0px) and (max-width:425px) {
+  .navbar-nav .nav-link:hover::after {
+  width: 10%;
+}
+  
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.but .btn-dark {
+  animation: pulse 2s infinite;
+}
+
+.but .btn-dark:hover {
+  animation: none;
+}
+
+.categories .card img {
+  transition: transform 0.3s ease;
+}
+
+.categories .card img:hover {
+  transform: scale(1.1);
+}
+
+.feature-card .bi {
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .bi {
+  transform: rotate(360deg);
+}
+
+
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">TrendWeave</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Explore</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Create</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Share</a>
+          </li>
+          <div class="auth-buttons d-flex">
+            
+            <button class="btn btn-outline-light me-2 login-btn" data-bs-toggle="modal" data-bs-target="#signupModal"  id="singup">Signup</button>
+        <button class="btn btn-outline-light me-2 login-btn" data-bs-toggle="modal" data-bs-target="#loginModal" id="login">Login</button>
+        <button class="btn btn-outline-light me-2 login-btn" onclick="navigateToMain()">Guest</button>
+
+          </div>
+        </ul>
+      </div>
+    </div>
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true" id="bg">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="signupModalLabel">Signup</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="signupForm">
+              <div class="mb-3">
+                <label for="signupEmail" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="signupEmail" required>
+              </div>
+              <div class="mb-3">
+                <label for="signupPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="signupPassword" required>
+              </div>
+              <button type="button" class="btn btn-primary" id="emailSignupButton" style="background-color: grey; border: none;">Signup</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Login</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="loginForm">
+              <div class="mb-3">
+                <label for="loginEmail" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="loginEmail" required>
+              </div>
+              <div class="mb-3">
+                <label for="loginPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="loginPassword" required>
+              </div>
+              <button type="button" class="btn btn-secondary" id="btns" style="background-color: grey; border: none;">Login</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://media.istockphoto.com/id/1293366109/photo/this-one-match-perfect-with-me.jpg?s=612x612&w=0&k=20&c=wJ6yYbRrDfdmoViuQkX39s2z_0lCiNQYgEtLU--0EbY=" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="https://t3.ftcdn.net/jpg/03/02/20/54/360_F_302205432_GJdnxFsDfyeLTWZgoRr0htO20dP1gRen.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="https://img.freepik.com/free-photo/elegant-shopaholic-woman-making-selfie-with-happy-smile-holding-paper-bags_197531-5685.jpg" class="d-block w-100" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h1 class="display-4">Unleash Your Style</h1>
+      <p class="lead">Create and share your unique style with the world</p>
+      <a href="#" class="btn btn-dark btn-lg">Get Started</a>
+    </div>
+  </section>
+  <!-- categories -->
+  <section class="categories">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card text-center">
+            <div class="card-body">
+              <h3 class="card-title">Men's</h3>
+              <img src="https://images.pexels.com/photos/842811/pexels-photo-842811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Men's Fashion">
+              <img src="https://www.shutterstock.com/shutterstock/videos/1029075503/thumb/1.jpg?ip=x480" alt="Men's Outfit">
+              <img src="https://c0.wallpaperflare.com/preview/647/197/313/fashion-men-portraits-shopify.jpg" alt="Men's Style">
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-md-6">
+          <div class="card text-center">
+            <div class="card-body">
+              <h3 class="card-title">Women's</h3>
+              <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Women's Fashion">
+              <img src="https://images.pexels.com/photos/285171/pexels-photo-285171.jpeg?w=1200&h=627&auto=compress&cs=tinysrgb" alt="Women's Outfit">
+              <img src="https://images.pexels.com/photos/291762/pexels-photo-291762.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Women's Style">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="but">
+    <a href="#" class="btn btn-dark btn-lg">Explore Now</a>
+</div>
+  
+
+
+
+
+  <!-- Feature Section -->
+  <section class="feature-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card feature-card text-center">
+            <!-- <img src="https://via.placeholder.com/150" class="card-img-top" alt="..."> -->
+            <div class="card-body">
+              <h3 class="card-title">Create</h3>
+              <p class="card-text">Create your unique style with our easy-to-use tools</p>
+              <i class="bi bi-gear-fill"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card text-center">
+            <!-- <img src="https://via.placeholder.com/150" class="card-img-top" alt="..."> -->
+            <div class="card-body">
+              <h3 class="card-title">Share</h3>
+              <p class="card-text">Share your style with the world and get feedback</p>
+              <i class="bi bi-chat-left-text-fill"></i>
+            </div>
+            </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card feature-card text-center">
+                <!-- <img src="https://via.placeholder.com/150" class="card-img-top" alt="..."> -->
+                <div class="card-body">
+                  <h3 class="card-title
+                    ">Explore</h3>
+                    <p class="card-text">Explore other people's styles and collections to get inspired </p>
+                    <i class="bi bi-geo-fill"></i>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </section>
+                    <!-- Call to Action Section -->
+                    <!-- <section class="cta-section">
+                      <div class="container">
+                        <h2>Ready to get started?</h2>
+                        <a href="#" class="btn cta-btn btn-lg">Get Started</a>
+                      </div>
+                    </section> -->
+                    <!-- Footer -->
+                    <footer>
+                      <div class="container">
+                        <p>&copy; 2021 TrendWeave. All rights reserved.</p>
+                        <div class="contact-us">
+                          <a href="#">Contact Us</a>
+                        </div>
+                      </div>
+                    </footer>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+                    <script>
+                      function navigateToMain() {
+                          window.location.href = 'main.html';
+                      }
+                    </script>
+                    </body>
+                    </html>

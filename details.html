@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to right, #bdc3c7, #2c3e50);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        opacity: 0;
+        animation: fadeIn 1s forwards;
+      }
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+      .product-details {
+        background-color: white;
+        padding: 2rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        text-align: left;
+        width: 80%;
+        max-width: 800px;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 2rem;
+        transform: translateY(20px);
+        animation: slideUp 0.5s forwards;
+      }
+      @keyframes slideUp {
+        to {
+          transform: translateY(0);
+        }
+      }
+      .product-details img {
+        width: 300px;
+        border-radius: 8px;
+        object-fit: cover;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .product-details img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .product-info {
+        flex: 1;
+      }
+      .product-info h2 {
+        margin: 0;
+        font-size: 2rem;
+        color: #333;
+      }
+      .product-info p {
+        margin: 0.5rem 0;
+        font-size: 1.2rem;
+        color: #666;
+      }
+      .product-info .price {
+        font-size: 1.5rem;
+        color: #e91e63;
+        font-weight: bold;
+      }
+      .buttons {
+        margin-top: 1rem;
+        display: flex;
+        gap: 1rem;
+      }
+      button {
+        background-color: #333;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        flex: 1;
+      }
+      button:hover {
+        background-color: #555;
+        transform: translateY(-2px);
+      }
+      @media (max-width: 768px) {
+        .product-info h2 {
+          font-size: 1.5rem;
+        }
+        .product-info p {
+          font-size: 1rem;
+        }
+        .product-info .price {
+          font-size: 1.2rem;
+        }
+      }
+      @media (max-width: 480px) {
+        .product-info h2 {
+          font-size: 1.2rem;
+        }
+        .product-info p {
+          font-size: 0.9rem;
+        }
+        .product-info .price {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="product-details" id="product-details">
+      <!-- Product details will be injected here by JavaScript -->
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const product = JSON.parse(localStorage.getItem("productDetails"));
+        if (product) {
+          displayProductDetails(product);
+        } else {
+          document.getElementById("product-details").innerHTML =
+            "<p>No product details available.</p>";
+        }
+      });
+
+      function displayProductDetails(product) {
+        const productDetails = document.getElementById("product-details");
+        productDetails.innerHTML = `
+                <img src="${product.image}" alt="${product.title}">
+                <div class="product-info">
+                    <h2>${product.title}</h2>
+                    <p class="price">$${product.price}</p>
+                    <p>${product.description || "No description available."}</p>
+                    <div class="buttons">
+                        <button onclick="addToCart('${product.title}', ${
+          product.price
+        })">Add to Cart</button>
+                        <button onclick="goBack()">Go Back</button>
+                    </div>
+                </div>
+            `;
+      }
+
+      function addToCart(product, price) {
+        Swal.fire({
+          title: 'Added to Cart',
+          text: `${product} has been added to your cart. Price: $${price}`,
+          icon: 'success',
+          confirmButtonColor: '#343a40',
+          confirmButtonText: 'OK'
+        });
+      }
+
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </body>
+</html>

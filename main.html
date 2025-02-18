@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendWeave</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script type="module" src="index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: black;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        nav a {
+            color: black;
+            text-decoration: none;
+            margin: 0 1rem;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #f4f4f4;
+            border-radius: 4px;
+            color: #007bff; /* Highlight color */
+        }
+        .hero {
+            background-image: url('hero-image.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 1rem;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .hero button {
+            background-color: #343a40;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .hero button:hover {
+            background-color: #495057;
+        }
+        .filter-bar {
+            margin: 2rem;
+            text-align: center;
+        }
+        .filter-bar select, .filter-bar input {
+            margin: 0 0.5rem;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .category-bar {
+            margin: 2rem;
+            text-align: center;
+        }
+        .category-bar button {
+            background-color: #343a40;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 0 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+        .category-bar button:hover {
+            background-color: #495057;
+        }
+        .category-bar button.active {
+            background-color: #495057;
+        }
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 2rem;
+        }
+        .product {
+            background-color: white;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: center;
+            width: calc(100% / 4 - 2rem);
+            margin: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .search-container {
+            margin-right: 1rem;
+        }
+        @media (max-width: 768px) {
+            .product {
+                width: calc(100% / 2 - 2rem);
+            }
+            .search-container {
+                display: flex;
+                justify-content: center;
+                margin-top: 1rem;
+            }
+            .navbar .search-container {
+                display: none;
+            }
+        }
+        @media (max-width: 480px) {
+            .product {
+                width: 100%;
+            }
+        }
+        .product:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .product img {
+            max-width: 100%;
+            border-radius: 8px;
+            height: 200px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            object-fit: cover;
+        }
+        .product img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .product h2 {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+            color: black;
+        }
+        .product p {
+            margin: 0.5rem 0;
+            color: #666;
+        }
+        .product button {
+            background-color: #343a40;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .product button:hover {
+            background-color: #495057;
+        }
+        .cart-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            overflow-y: auto;
+            display: none;
+        }
+        .cart-container h2 {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .cart-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .cart-item button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">TrendWeave</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Explore</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="fetchCategory('men')">Men</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="fetchCategory('women')">Women</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="toggleCart()">Cart (<span id="cart-count">0</span>)</a>
+                    </li>
+                    <li class="nav-item search-container">
+                        <input type="text" id="search-input" class="form-control" placeholder="Search products...">
+                    </li>
+                    <div class="auth-buttons d-flex">
+                        <button class="btn btn-outline-dark me-2 login-btn" data-bs-toggle="modal" data-bs-target="#signupModal" onclick="logout()" id="logout">Logout</button>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="search-container d-lg-none">
+        <input type="text" id="search-input" class="form-control" placeholder="Search products...">
+    </div>
+    
+    
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <select id="price-filter" onchange="applyFilters()">
+            <option value="all">All Prices</option>
+            <option value="0-500">Under ₹500</option>
+            <option value="500-1000">₹500 to ₹1000</option>
+            <option value="1000-2000">₹1000 to ₹2000</option>
+            <option value="2000+">Above ₹2000</option>
+        </select>
+        <select id="brand-filter" onchange="applyFilters()">
+            <option value="all">All Brands</option>
+            <option value="brand1">Brand 1</option>
+            <option value="brand2">Brand 2</option>
+            <option value="brand3">Brand 3</option>
+        </select>
+        <select id="rating-filter" onchange="applyFilters()">
+            <option value="all">All Ratings</option>
+            <option value="4+">4 Stars & Up</option>
+            <option value="3+">3 Stars & Up</option>
+            <option value="2+">2 Stars & Up</option>
+            <option value="1+">1 Star & Up</option>
+        </select>
+    </div>
+    
+    <!-- Product Container -->
+    <main id="product-container">
+        <!-- Products will be injected here by JavaScript -->
+    </main>
+    
+    <!-- Cart Container -->
+    <div class="cart-container" id="cart-container">
+        <h2>Shopping Cart</h2>
+        <div id="cart-items">
+            <!-- Cart items will be injected here by JavaScript -->
+        </div>
+        <button onclick="checkout()">Checkout</button>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 TrendWeave. All rights reserved.</p>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Contact Us</a>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchProducts();
+            document.getElementById('search-input').addEventListener('input', filterProducts);
+        });
+
+        let allProducts = [];
+        let cart = [];
+
+        function fetchProducts() {
+            fetch('https://679ba7db33d316846324a87d.mockapi.io/v5/fashion')
+                .then(response => response.json())
+                .then(products => {
+                    allProducts = products;
+                    displayProducts(allProducts);
+                })
+                .catch(error => console.error('Error fetching products:', error));
+        }
+
+        function displayProducts(products) {
+            const productContainer = document.getElementById('product-container');
+            productContainer.innerHTML = ''; // Clear any existing products
+
+            products.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.classList.add('product');
+                productDiv.onclick = (event) => {
+                    if (event.target.tagName !== 'BUTTON') {
+                        viewProductDetails(product);
+                    }
+                };
+
+                productDiv.innerHTML = `
+                    <img src="${product.image}" alt="${product.title}">
+                    <h2>${product.name}</h2>
+                    <p>₹${product.price}</p>
+                    <button onclick="event.stopPropagation(); addToCart('${product.id}', '${product.name}', ${product.price}, '${product.image}')">Add to Cart</button>
+                `;
+
+                productContainer.appendChild(productDiv);
+            });
+        }
+
+        function filterProducts() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const filteredProducts = allProducts.filter(product => 
+                product.name.toLowerCase().includes(searchTerm)
+            );
+            displayProducts(filteredProducts);
+        }
+
+        function fetchCategory(category) {
+            const buttons = document.querySelectorAll('.category-bar button');
+            buttons.forEach(button => button.classList.remove('active'));
+            document.querySelector(`.category-bar button[onclick="fetchCategory('${category}')"]`).classList.add('active');
+
+            if (category === 'all') {
+                displayProducts(allProducts);
+            } else {
+                const filteredProducts = allProducts.filter(product => 
+                    product.category.toLowerCase() === category.toLowerCase()
+                );
+                displayProducts(filteredProducts);
+            }
+        }
+
+        function applyFilters() {
+            const priceFilter = document.getElementById('price-filter').value;
+            const brandFilter = document.getElementById('brand-filter').value;
+            const ratingFilter = document.getElementById('rating-filter').value;
+
+            let filteredProducts = allProducts;
+
+            if (priceFilter !== 'all') {
+                const [minPrice, maxPrice] = priceFilter.split('-');
+                filteredProducts = filteredProducts.filter(product => {
+                    const price = parseFloat(product.price);
+                    return price >= parseFloat(minPrice) && (maxPrice === '+' || price <= parseFloat(maxPrice));
+                });
+            }
+
+            if (brandFilter !== 'all') {
+                filteredProducts = filteredProducts.filter(product => product.brand === brandFilter);
+            }
+
+            if (ratingFilter !== 'all') {
+                const minRating = parseFloat(ratingFilter);
+                filteredProducts = filteredProducts.filter(product => product.rating >= minRating);
+            }
+
+            displayProducts(filteredProducts);
+        }
+
+        function addToCart(id, name, price, image) {
+            const existingProduct = cart.find(product => product.id === id);
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cart.push({ id, name, price, image, quantity: 1 });
+            }
+            updateCart();
+            Swal.fire({
+                title: 'Success!',
+                text: `${name} has been added to your cart.`,
+                icon: 'success',
+                confirmButtonColor: '#343a40',
+                confirmButtonText: 'OK'
+            });
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            cartItems.innerHTML = '';
+
+            cart.forEach(product => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <div>
+                        <h4>${product.name}</h4>
+                        <p>₹${product.price} x ${product.quantity}</p>
+                    </div>
+                    <button onclick="removeFromCart('${product.id}')">Remove</button>
+                `;
+                cartItems.appendChild(cartItem);
+            });
+
+            cartCount.textContent = cart.reduce((total, product) => total + product.quantity, 0);
+        }
+
+        function removeFromCart(id) {
+            const productIndex = cart.findIndex(product => product.id === id);
+            if (productIndex !== -1) {
+                cart[productIndex].quantity -= 1;
+                if (cart[productIndex].quantity === 0) {
+                    cart.splice(productIndex, 1);
+                }
+            }
+            updateCart();
+        }
+
+        function toggleCart() {
+            const cartContainer = document.getElementById('cart-container');
+            cartContainer.style.display = cartContainer.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function checkout() {
+            Swal.fire({
+                title: 'Checkout',
+                text: 'Checkout functionality not implemented yet.',
+                icon: 'info',
+                confirmButtonColor: '#343a40',
+                confirmButtonText: 'OK'
+            });
+        }
+
+        function viewProductDetails(product) {
+            localStorage.setItem('productDetails', JSON.stringify(product));
+            console.log("Stored product details:", product); // Debugging log
+            window.location.href = 'details.html';
+        }
+
+        function logout() {
+            Swal.fire({
+                title: 'Logged Out',
+                text: 'Logout successfully',
+                icon: 'success',
+                confirmButtonColor: '#343a40',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = 'index.html';
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="product-container.js"></script>
+</body>
+</html>
