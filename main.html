@@ -256,7 +256,7 @@
         </div>
     </nav>
     <div class="search-container d-lg-none">
-        <input type="text" id="search-input" class="form-control" placeholder="Search products...">
+        <input type="text" id="search-input-mobile" class="form-control" placeholder="Search products...">
     </div>
     
     
@@ -308,7 +308,9 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             fetchProducts();
-            document.getElementById('search-input').addEventListener('input', filterProducts);
+            document.querySelectorAll('#search-input, #search-input-mobile').forEach(input => {
+                input.addEventListener('input', filterProducts);
+            });
         });
 
         let allProducts = [];
@@ -349,7 +351,7 @@
         }
 
         function filterProducts() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const searchTerm = document.querySelector('#search-input').value.toLowerCase() || document.querySelector('#search-input-mobile').value.toLowerCase();
             const filteredProducts = allProducts.filter(product => 
                 product.name.toLowerCase().includes(searchTerm)
             );
