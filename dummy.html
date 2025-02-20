@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Grocery Store</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f3f4f6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; }
+        header { background: linear-gradient(to right, #11998e, #38ef7d); color: #ffffff; padding: 20px 0; text-align: center; margin-bottom: 20px; width: 100%; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+        header h1 { font-size: 3rem; margin: 0; }
+        header nav ul { list-style-type: none; padding: 0; margin: 0; display: flex; justify-content: center; gap: 20px; }
+        header nav ul li { display: inline; }
+        header nav ul li a { color: #ffffff; text-decoration: none; font-size: 1.5rem; transition: color 0.3s ease; }
+        header nav ul li a:hover { color: #f3f4f6; text-shadow: 0 0 5px rgba(255, 255, 255, 0.7); }
+        #products { margin-bottom: 20px; flex: 1; }
+        .product { background-color: #ffffff; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 20px; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .product:hover { transform: translateY(-5px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+        .product img { width: 100%; max-width: 200px; height: auto; margin-bottom: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+        .product h3 { font-size: 1.8rem; margin: 0; }
+        .product p { color: #666666; margin-bottom: 0.5rem; font-size: 1.2rem; }
+        .product button { background: linear-gradient(to right, #11998e, #38ef7d); color: #ffffff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease, transform 0.3s ease; outline: none; font-size: 1rem; }
+        .product button:hover { background: linear-gradient(to right, #0c8976, #30c270); transform: scale(1.05); }
+        #cart { background-color: #ffffff; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 20px; width: 300px; }
+        #cart h2 { font-size: 2.5rem; margin-bottom: 1rem; color: #333; }
+        #cart-items { list-style-type: none; padding: 0; margin: 0; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; padding: 10px; border-radius: 4px; transition: background-color 0.3s ease; }
+        .cart-item:hover { background-color: #f3f4f6; }
+        .cart-item img { width: 50px; height: auto; margin-right: 10px; transition: transform 0.3s ease; display: inline-block; vertical-align: middle; }
+        .cart-item img:hover { transform: scale(1.1); }
+        .cart-item span { display: inline-block; vertical-align: middle; }
+        .cart-item button { display: inline-block; vertical-align: middle; background: linear-gradient(to right, #ff4d4f, #ff6382); color: #ffffff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease, transform 0.3s ease; outline: none; }
+        .cart-item button:hover { background: linear-gradient(to right, #e63c3f, #f34d6f); transform: scale(1.05); }
+        @media (max-width: 768px) {
+            .container { flex-direction: column; align-items: center; }
+            #cart { width: 100%; margin-top: 20px; }
+        }
+        #buy-button { transition: background-color 0.3s ease, transform 0.3s ease; padding: 10px 20px; font-size: 1.2rem; }
+        #buy-button:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Online Grocery Store</h1>
+        </div>
+    </header>
+    <div class="container">
+        <section id="products">
+            <h2>Available Products</h2>
+            <div id="product-list"></div>
+        </section>
+        <aside id="cart">
+            <h2>Shopping Cart</h2>
+            <ul id="cart-items"></ul>
+            <button id="buy-button" onclick="checkout()">Buy</button>
+        </aside>
+    </div>
+    <script>
+        const apiEndpoint = "https://679ba7db33d316846324a87d.mockapi.io/v5/fashion/";
+        
+        async function fetchProducts() {
+            try {
+                const response = await fetch(apiEndpoint);
+                const products = await response.json();
+                const productList = document.getElementById('product-list');
+                productList.innerHTML = '';
+                products.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'product';
+                    productDiv.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>$${product.price}</p>
+                        <button onclick="addToCart('${product.name}', ${product.price}, '${product.image}')"> Add to Cart </button>
+                    `;
+                    productList.appendChild(productDiv);
+                });
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        }
+        
+        let Items = [];
+        function addToCart(name, price, image) {
+            const index = Items.findIndex(item => item.name === name);
+            if (index !== -1) {
+                Items[index].quantity += 1;
+            } else {
+                Items.push({ name, price, quantity: 1, image });
+            }
+            updateCartDisplay();
+        }
+        function deleteFromCart(index) {
+            Items.splice(index, 1);
+            updateCartDisplay();
+        }
+        function updateCartDisplay() {
+            const cartElement = document.getElementById('cart-items');
+            cartElement.innerHTML = '';
+            Items.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.className = 'cart-item';
+                li.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" style="width: 50px; height: auto; margin-right: 10px;">
+                    <span>${item.name} - $${item.price.toFixed(2)} x ${item.quantity}</span>
+                    <button onclick="deleteFromCart(${index})">Delete</button>
+                `;
+                cartElement.appendChild(li);
+            });
+        }
+        function checkout() {
+            let totalPrice = Items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            alert(`Total price: $${totalPrice.toFixed(2)}`);
+        }
+        
+        fetchProducts();
+    </script>
+</body>
+</html>

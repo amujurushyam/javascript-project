@@ -195,7 +195,17 @@
     
     <!-- Product Container -->
     <main id="product-container">
-        <!-- Products will be injected here by JavaScript -->
+        <!-- Example product card with data attributes -->
+        <div class="card">
+            <img src="example.jpg" alt="Example Product">
+            <div class="card-body">
+                <h5 class="card-title">Example Product</h5>
+                <p class="card-text">This is an example product description.</p>
+                <p class="card-text">₹1000</p>
+                <button class="btn btn-primary add-to-cart" data-id="1" data-image="example.jpg" data-name="Example Product" data-description="This is an example product description." data-price="1000">Add to Cart</button>
+                <button class="btn btn-secondary add-to-wishlist" data-id="1" data-image="example.jpg" data-name="Example Product" data-description="This is an example product description." data-price="1000">Add to Wishlist</button>
+            </div>
+        </div>
     </main>
     
     <!-- Cart Container -->
@@ -231,6 +241,7 @@
         }
 
         function addToWishlist(item) {
+            console.log('Adding to wishlist:', item); // Debugging log
             try {
                 const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
                 wishlist.push(item);
@@ -238,7 +249,6 @@
                 updateWishlistCount();
                 refreshWishlist(); // Refresh wishlist after adding an item
                 Swal.fire({
-                    // icon: 'success',
                     title: 'Added to Wishlist',
                     text: `${item.name} has been added to your wishlist!`,
                 });
@@ -308,6 +318,7 @@
         }
 
         function addToCart(item) {
+            console.log('Adding to cart:', item); // Debugging log
             try {
                 const cart = JSON.parse(localStorage.getItem('cart')) || [];
                 cart.push(item);
@@ -362,6 +373,7 @@
             cartContainer.innerHTML = '';
 
             for (const item of cart) {
+                console.log('Cart item:', item); // Debugging log
                 const cartItem = document.createElement('div');
                 cartItem.classList.add('cart-item');
                 cartItem.innerHTML = `
@@ -399,6 +411,7 @@
                         description: this.getAttribute('data-description'),
                         price: this.getAttribute('data-price')
                     };
+                    console.log('Wishlist button clicked:', item); // Debugging log
                     addToWishlist(item);
                 });
             });
@@ -413,6 +426,7 @@
                         description: this.getAttribute('data-description'),
                         price: this.getAttribute('data-price')
                     };
+                    console.log('Cart button clicked:', item); // Debugging log
                     addToCart(item);
                 });
             });
