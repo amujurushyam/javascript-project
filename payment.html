@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Mode - TrendWeave</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <!-- <link rel="stylesheet" href="main.css"> -->
+    <style>
+        body {
+            background-color: #f0f2f5; /* Added background color */
+            animation: backgroundFade 2s ease-in-out;
+        }
+        .container {
+            max-width: 500px;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #ffffff; /* Updated to website's background color */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+        .form-label {
+            font-weight: bold;
+            color: #333333; /* Updated to website's text color */
+            animation: textFadeIn 1s ease-in-out;
+        }
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #cccccc; /* Updated to website's border color */
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-control:focus {
+            border-color: #ff6600; /* Updated to website's primary color */
+            box-shadow: 0 0 5px rgba(255, 102, 0, 0.5); /* Updated to website's primary color */
+        }
+        .btn-primary {
+            width: 100%;
+            background-color: #ff6600; /* Updated to website's primary color */
+            border-color: #ff6600; /* Updated to website's primary color */
+            border-radius: 5px;
+            transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #cc5200; /* Updated to website's hover color */
+            border-color: #b34700; /* Updated to website's hover color */
+            transform: scale(1.05);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333333; /* Updated to website's text color */
+            animation: slideIn 1s ease-in-out;
+        }
+        .website-image {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 100%;
+            border-radius: 10px;
+            animation: imageFadeIn 1s ease-in-out;
+        }
+        .qr-image {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            border-radius: 10px;
+            animation: imageFadeIn 1s ease-in-out;
+        }
+        .total-amount {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #333333;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        @keyframes imageFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        @keyframes textFadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes backgroundFade {
+            from {
+                background-color: #e0e0e0;
+            }
+            to {
+                background-color: #f0f2f5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="path/to/your/image.jpg" alt="Website Image" class="website-image"> <!-- Add your image path here -->
+        <h1>Payment Mode</h1>
+        <div id="total-amount" class="total-amount"></div>
+        <form id="payment-form">
+            <div class="mb-3">
+                <label for="card-number" class="form-label">Card Number</label>
+                <input type="text" class="form-control" id="card-number" required>
+            </div>
+            <div class="mb-3">
+                <label for="expiry-date" class="form-label">Expiry Date</label>
+                <input type="text" class="form-control" id="expiry-date" required>
+            </div>
+            <div class="mb-3">
+                <label for="cvv" class="form-label">CVV</label>
+                <input type="text" class="form-control" id="cvv" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Payment</button>
+        </form>
+        <img src="path/to/phonepe-qr.jpg" alt="PhonePe QR Code" class="qr-image"> <!-- Add your PhonePe QR image path here -->
+        <form id="qr-payment-form">
+            <div class="mb-3">
+                <label for="amount" class="form-label">Amount</label>
+                <input type="number" class="form-control" id="amount" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit QR Payment</button>
+        </form>
+    </div>
+    <script>
+        function loadTotalAmount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let totalAmount = 0;
+
+            cart.forEach(item => {
+                totalAmount += parseFloat(item.price);
+            });
+
+            const totalAmountElement = document.getElementById('total-amount');
+            totalAmountElement.textContent = `Total Amount: ₹${totalAmount.toFixed(2)}`;
+        }
+
+        document.getElementById('payment-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const cardNumber = document.getElementById('card-number').value;
+            const expiryDate = document.getElementById('expiry-date').value;
+            const cvv = document.getElementById('cvv').value;
+
+            if (validateCardDetails(cardNumber, expiryDate, cvv)) {
+                alert('Payment submitted successfully!');
+            } else {
+                alert('Invalid card details. Please check and try again.');
+            }
+        });
+
+        document.getElementById('qr-payment-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const amount = document.getElementById('amount').value;
+
+            if (validateAmount(amount)) {
+                alert('QR Payment submitted successfully!');
+            } else {
+                alert('Invalid amount. Please check and try again.');
+            }
+        });
+
+        function validateCardDetails(cardNumber, expiryDate, cvv) {
+            const cardNumberPattern = /^\d{16}$/;
+            const expiryDatePattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
+            const cvvPattern = /^\d{3}$/;
+
+            return cardNumberPattern.test(cardNumber) &&
+                   expiryDatePattern.test(expiryDate) &&
+                   cvvPattern.test(cvv);
+        }
+
+        function validateAmount(amount) {
+            return amount > 0;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadTotalAmount);
+    </script>
+</body>
+</html>
